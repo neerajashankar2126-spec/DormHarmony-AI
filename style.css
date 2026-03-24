@@ -1,0 +1,61 @@
+/* --- CUSTOM THEME & FONT --- */
+body {
+    background-color: #f0f2f5;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+/* --- THE LOGIN BOX --- */
+#auth-section .card {
+    border: none;
+    border-radius: 20px;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.1) !important;
+    padding: 40px !important;
+}
+
+/* --- APP SECTION --- */
+#app-section .navbar {
+    background: linear-gradient(135deg, #1c2833 0%, #2c3e50 100%) !important;
+    border: none;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+}
+
+/* --- THE MATCH CARDS --- */
+#match-results .card {
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+    cursor: pointer;
+    background: #ffffff;
+}
+
+#match-results .card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 20px rgba(0,0,0,0.15) !important;
+}
+
+/* --- SLIDER STYLING --- */
+.form-range::-webkit-slider-thumb {
+    background: #0d6efd;
+}
+
+/* --- SUCCESS ANIMATION --- */
+.badge {
+    font-size: 0.9rem;
+    padding: 8px 12px;
+    border-radius: 8px;
+}
+
+/* --- EMPTY STATE --- */
+#match-results:empty::before {
+    content: "No candidates in the database yet. Create a profile or refresh!";
+    color: #888;
+    font-style: italic;
+    display: block;
+    text-align: center;
+    padding: 20px;
+}
+
+/* --- VINTAGE TOUCH (Optional) --- */
+/* If you want that grain/vintage feel for your presentation */
+.vintage-glow {
+    text-shadow: 2px 2px #e5e7e9;
+    letter-spacing: 1px;
+}

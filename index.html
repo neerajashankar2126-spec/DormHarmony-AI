@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DormHarmony AI | Premium</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body class="bg-light">
+
+    <div id="auth-section" class="container mt-5">
+        <div class="row justify-content-center">
+            <div class="col-md-4 card p-4 shadow-sm">
+                <h3 class="text-center mb-4 vintage-glow">🏠 DormHarmony</h3>
+                <input type="email" id="email" class="form-control mb-2" placeholder="SRM Email">
+                <input type="password" id="password" class="form-control mb-3" placeholder="Password">
+                <button onclick="handleAuth('login')" class="btn btn-primary w-100 mb-2">Login</button>
+                <button onclick="handleAuth('signup')" class="btn btn-outline-secondary w-100">Sign Up</button>
+            </div>
+        </div>
+    </div>
+
+    <div id="app-section" class="container mt-4 d-none">
+        <nav class="navbar navbar-dark bg-dark rounded px-3 mb-4 d-flex justify-content-between">
+            <span class="navbar-brand vintage-glow">📟 DormHarmony AI</span>
+            <button onclick="logout()" class="btn btn-sm btn-outline-light">Logout</button>
+        </nav>
+
+        <div class="row">
+            <div class="col-md-6">
+    <div class="card p-4 shadow-sm mb-4">
+        <h5>📝 My Lifestyle Profile</h5>
+        <p class="text-muted small">Slide to indicate where you fall on the scale.</p>
+        <hr>
+        
+        <label class="form-label small fw-bold">Full Name / Reg No</label>
+        <input type="text" id="user-name" class="form-control mb-4" placeholder="e.g. RA221100...">
+
+        <div class="row">
+            <div class="col-6">
+                <label class="form-label small mb-0">💤 Sleep Schedule</label>
+                <div class="d-flex justify-content-between x-small text-muted mb-1" style="font-size: 10px;">
+                    <span>Early Bird</span><span>Night Owl</span>
+                </div>
+                <input type="range" id="p-sleep" class="form-range" min="1" max="5">
+                
+                <label class="form-label small mb-0">🧹 Cleanliness</label>
+                <div class="d-flex justify-content-between x-small text-muted mb-1" style="font-size: 10px;">
+                    <span>Messy</span><span>Neat Freak</span>
+                </div>
+                <input type="range" id="p-clean" class="form-range" min="1" max="5">
+                
+                <label class="form-label small mb-0">📢 Noise Tolerance</label>
+                <div class="d-flex justify-content-between x-small text-muted mb-1" style="font-size: 10px;">
+                    <span>Quiet Only</span><span>Can Handle Loud</span>
+                </div>
+                <input type="range" id="p-noise" class="form-range" min="1" max="5">
+
+                <label class="form-label small mb-0">🤝 Social Energy</label>
+                <div class="d-flex justify-content-between x-small text-muted mb-1" style="font-size: 10px;">
+                    <span>Introvert</span><span>Extrovert</span>
+                </div>
+                <input type="range" id="p-social" class="form-range" min="1" max="5">
+
+                <label class="form-label small mb-0">❄️ AC Usage</label>
+                <div class="d-flex justify-content-between x-small text-muted mb-1" style="font-size: 10px;">
+                    <span>No AC</span><span>High AC</span>
+                </div>
+                <input type="range" id="p-ac" class="form-range" min="1" max="5">
+            </div>
+
+            <div class="col-6">
+                <label class="form-label small mb-0">👯 Sharing Belongings</label>
+                <div class="d-flex justify-content-between x-small text-muted mb-1" style="font-size: 10px;">
+                    <span>"Don't Touch"</span><span>"Use Anything"</span>
+                </div>
+                <input type="range" id="p-share" class="form-range" min="1" max="5">
+                
+                <label class="form-label small mb-0">💡 Lights at Night</label>
+                <div class="d-flex justify-content-between x-small text-muted mb-1" style="font-size: 10px;">
+                    <span>Pitch Black</span><span>Always On</span>
+                </div>
+                <input type="range" id="p-lights" class="form-range" min="1" max="5">
+                
+                <label class="form-label small mb-0">👥 Guest Frequency</label>
+                <div class="d-flex justify-content-between x-small text-muted mb-1" style="font-size: 10px;">
+                    <span>No Guests</span><span>Frequent Visitors</span>
+                </div>
+                <input type="range" id="p-guests" class="form-range" min="1" max="5">
+
+                <label class="form-label small mb-0">🌡️ Room Temp</label>
+                <div class="d-flex justify-content-between x-small text-muted mb-1" style="font-size: 10px;">
+                    <span>Keep it Cold</span><span>Keep it Warm</span>
+                </div>
+                <input type="range" id="p-temp" class="form-range" min="1" max="5">
+
+                <div class="mt-2 text-center p-2 bg-light rounded">
+                    <label class="small fw-bold">🚬 Do you smoke?</label><br>
+                    <div class="form-check form-check-inline">
+                        <input class="form-check-input" type="radio" name="smoke" id="smokeNo" value="0" checked>
+                        <label class="form-check-label small" for="smokeNo">No</label>
+                    </div>
+                    <div class="form-check form-check-inline">
+                        <input class="form-check-input" type="radio" name="smoke" id="smokeYes" value="1">
+                        <label class="form-check-label small" for="smokeYes">Yes</label>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <button onclick="saveProfile()" class="btn btn-success w-100 mt-3 shadow-sm">🚀 Save & Sync to Cloud</button>
+    </div>
+</div>
+
+            <div class="col-md-6">
+                <div class="card p-4 shadow-sm bg-white" style="min-height: 500px;">
+                    <div class="d-flex justify-content-between align-items-center mb-3">
+                        <h5 class="mb-0">🔍 AI Matching Engine</h5>
+                        <button onclick="runMatcher()" class="btn btn-dark btn-sm">Refresh</button>
+                    </div>
+                    <div id="match-results"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-auth-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-database-compat.js"></script>
+    <script src="app.js"></script>
+</body>
+</html>
