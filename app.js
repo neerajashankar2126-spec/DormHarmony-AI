@@ -60,6 +60,7 @@ function saveProfile() {
         lights: parseInt(document.getElementById('p-lights').value),
         guests: parseInt(document.getElementById('p-guests').value),
         temp: parseInt(document.getElementById('p-temp').value),
+        gender: document.querySelector('input[name="gender"]:checked').value,
         smoke: parseInt(document.querySelector('input[name="smoke"]:checked').value),
         email: user.email
     };
@@ -97,7 +98,8 @@ function runMatcher() {
 
             // SKIP: Don't match with yourself or empty profiles
             if (child.key === user.uid || !other.name) return;
-
+            // If they are not the same gender, we skip them entirely
+            if (me.gender !== other.gender) return;
             // LOGIC: Hard Constraint (Smoking)
             if (me.smoke !== other.smoke) return;
 
