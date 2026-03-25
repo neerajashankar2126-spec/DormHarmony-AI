@@ -52,8 +52,7 @@ function saveProfile() {
     // Gathering all 11 Data Points
     const data = {
         name: document.getElementById('user-name').value || "SRM Student",
-        gender: document.querySelector('input[name="gender"]:checked').value, // 🔥 NEW
-        smoke: parseInt(document.querySelector('input[name="smoke"]:checked').value),
+        gender: document.querySelector('input[name="gender"]:checked').value, 
         sleep: parseInt(document.getElementById('p-sleep').value),
         clean: parseInt(document.getElementById('p-clean').value),
         noise: parseInt(document.getElementById('p-noise').value),
@@ -98,9 +97,6 @@ function runMatcher() {
 
             // 🔥 HARD CONSTRAINT 1: Gender (Must be same)
             if (me.gender !== other.gender) return;
-
-            // 🔥 HARD CONSTRAINT 2: Smoking (Must be same)
-            if (me.smoke !== other.smoke) return;
 
             // AI LOGIC: Manhattan Distance across 9 lifestyle traits
             const traits = ['sleep', 'clean', 'noise', 'social', 'ac', 'share', 'lights', 'guests', 'temp'];
@@ -158,7 +154,7 @@ function loadMyProfile() {
             document.getElementById('p-temp').value = data.temp;
             
             // Set Radio Buttons
-            if (data.smoke === 1) document.getElementById('smokeYes').checked = true;
+            
             if (data.gender === "Female") document.getElementById('genFemale').checked = true;
             else document.getElementById('genMale').checked = true;
         }
