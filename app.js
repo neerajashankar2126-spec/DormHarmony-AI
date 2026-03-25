@@ -16,19 +16,52 @@ const db = firebase.database();
 
 // 3. AUTHENTICATION LOGIC
 function handleAuth(type) {
-    const email = document.getElementById('email').value;
+    // 1. Get input values
+    const email = document.getElementById('email').value.toLowerCase().trim();
     const password = document.getElementById('password').value;
+    const authBtn = event.target; // Grabs the button you clicked
 
-    if (!email || !password) return alert("Please enter both email and password!");
+    // 2. THE GATEKEEPER: Institutional Domain Check
+    // This ensures only SRM emails can sign up or login
+    if (!email.endsWith("@srmist.edu.in")) {
+        alert("🚨 Access Denied: Please use your official @srmist.edu.in email.");
+        return; 
+    }
+
+    if (!email || !password) {
+        alert("Please enter both email and password!");
+        return;
+    }
+
+    // UI Feedback: Show the user the app is "thinking"
+    const originalText = authBtn.innerText;
+    authBtn.innerText = "Processing...";
+    authBtn.disabled = true;
 
     if (type === 'signup') {
+        // --- SIGN UP ---
         auth.createUserWithEmailAndPassword(email, password)
-            .then(() => alert("Account Created! Now set up your profile."))
-            .catch(err => alert(err.message));
+            .then(() => {
+                alert("Account Created! 📟 Welcome to DormHarmony.");
+                authBtn.disabled = false;
+                authBtn.innerText = originalText;
+            })
+            .catch(err => {
+                alert(err.message);
+                authBtn.disabled = false;
+                authBtn.innerText = originalText;
+            });
     } else {
+        // --- LOGIN ---
         auth.signInWithEmailAndPassword(email, password)
-            .then(() => toggleView(true))
-            .catch(err => alert(err.message));
+            .then(() => {
+                toggleView(true);
+            })
+            .catch(err => {
+                alert(err.message);
+                authBtn.disabled = false;
+                authBtn.innerText = originalText;
+            });
     }
 }
 
@@ -36,13 +69,15 @@ function toggleView(isLoggedIn) {
     if (isLoggedIn) {
         document.getElementById('auth-section').classList.add('d-none');
         document.getElementById('app-section').classList.remove('d-none');
-        runMatcher(); // Start the live listener immediately
+        runMatcher(); // Start the live listener for roommates
     } else {
         location.reload();
     }
 }
 
-function logout() { auth.signOut().then(() => toggleView(false)); }
+function logout() { 
+    auth.signOut().then(() => toggleView(false)); 
+}
 
 // 4. SAVE PROFILE DATA (10 Traits + Gender + Name)
 function saveProfile() {
