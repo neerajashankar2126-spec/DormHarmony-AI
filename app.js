@@ -16,51 +16,47 @@ const db = firebase.database();
 
 // 3. AUTHENTICATION LOGIC
 function handleAuth(type) {
-    // 1. Get input values
     const email = document.getElementById('email').value.toLowerCase().trim();
     const password = document.getElementById('password').value;
-    const authBtn = event.target; // Grabs the button you clicked
+    const authBtn = event.target;
 
-    // 2. THE GATEKEEPER: Institutional Domain Check
-    // This ensures only SRM emails can sign up or login
-    if (!email.endsWith("@srmist.edu.in")) {
-        alert("🚨 Access Denied: Please use your official @srmist.edu.in email.");
-        return; 
-    }
+    if (!email || !password) return alert("Please enter email and password!");
 
-    if (!email || !password) {
-        alert("Please enter both email and password!");
-        return;
-    }
-
-    // UI Feedback: Show the user the app is "thinking"
-    const originalText = authBtn.innerText;
-    authBtn.innerText = "Processing...";
     authBtn.disabled = true;
+    authBtn.innerText = "Checking Cloud...";
 
     if (type === 'signup') {
-        // --- SIGN UP ---
+        // --- 1. SIGN UP & SEND LINK ---
         auth.createUserWithEmailAndPassword(email, password)
-            .then(() => {
-                alert("Account Created! 📟 Welcome to DormHarmony.");
-                authBtn.disabled = false;
-                authBtn.innerText = originalText;
+            .then((userCredential) => {
+                userCredential.user.sendEmailVerification().then(() => {
+                    alert("📩 Verification Link Sent! Please check your SRM inbox and click the link before logging in.");
+                    auth.signOut(); // Log them out immediately until they verify
+                    location.reload(); 
+                });
             })
             .catch(err => {
                 alert(err.message);
                 authBtn.disabled = false;
-                authBtn.innerText = originalText;
+                authBtn.innerText = "Sign Up";
             });
     } else {
-        // --- LOGIN ---
+        // --- 2. LOGIN & CHECK VERIFICATION ---
         auth.signInWithEmailAndPassword(email, password)
-            .then(() => {
-                toggleView(true);
+            .then((userCredential) => {
+                if (userCredential.user.emailVerified) {
+                    toggleView(true); // Verified! Let them in.
+                } else {
+                    alert("⚠️ Access Denied: Please verify your email via the link sent to your inbox first!");
+                    auth.signOut();
+                    authBtn.disabled = false;
+                    authBtn.innerText = "Login";
+                }
             })
             .catch(err => {
                 alert(err.message);
                 authBtn.disabled = false;
-                authBtn.innerText = originalText;
+                authBtn.innerText = "Login";
             });
     }
 }
@@ -69,11 +65,12 @@ function toggleView(isLoggedIn) {
     if (isLoggedIn) {
         document.getElementById('auth-section').classList.add('d-none');
         document.getElementById('app-section').classList.remove('d-none');
-        runMatcher(); // Start the live listener for roommates
+        runMatcher(); 
     } else {
         location.reload();
     }
 }
+
 
 function logout() { 
     auth.signOut().then(() => toggleView(false)); 
